@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     [SerializeField] float speed = 4.0f;
     [SerializeField] float jumpForce = 7.5f;
 
+    // private BoxCollider2D swordHitBox;
     private Animator animator;
     private Rigidbody2D rb;
     private GroundSensor groundSensor;
@@ -41,6 +42,7 @@ public class Player : MonoBehaviour
 
 
     // After it detects any collision
+    /*
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.name == "Player_P1" || collision.gameObject.name == "Player_P2")
@@ -50,11 +52,24 @@ public class Player : MonoBehaviour
             // Hurt
             animator.SetTrigger("Hurt");
         }
-            
-        // Debug info
-        Debug.Log("Object that collided with me: " + collision.gameObject.name);
     }
-    
+    */
+
+    void OnTriggerEnter2D(Collider2D col)
+    {
+        // Debug info
+        Debug.Log(col.gameObject.name + " : " + gameObject.name + " : " + Time.time);
+
+        if (col.gameObject.name == "SwordHitBox")
+        {
+            TakeDamage(1);
+
+            // Hurt
+            animator.SetTrigger("Hurt");
+        }
+    }
+
+
 
 
     // Update is called once per frame
@@ -120,6 +135,7 @@ public class Player : MonoBehaviour
         // Attack
         else if (name == "Player_P1" && Input.GetButtonDown("Attack_P1"))
         {
+            // swordHitBox.enabled = true;
             animator.SetTrigger("Attack");
         }
 
