@@ -1,27 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
     public HealthBarScript healthBar;
 
-    public int MaxHealth = 10;
-    public int CurrentHealth_P1;
-    public int CurrentHealth_P2;
+    // private SceneRestart sceneRestart;
+    private Animator animator;
+    private Rigidbody2D rb;
+    private GroundSensor groundSensor;
 
     [SerializeField] float speed = 4.0f;
     [SerializeField] float jumpForce = 7.5f;
 
-    // private BoxCollider2D swordHitBox;
-    private Animator animator;
-    private Rigidbody2D rb;
-    private GroundSensor groundSensor;
+    public  int   MaxHealth = 10;
+    public  int   CurrentHealth_P1;
+    public  int   CurrentHealth_P2;
+    public  bool  death_P1;
+    public  bool  death_P2;
     private float DirX;
-    private bool grounded = false;
-    private bool combatIdle = false;
-    private bool death_P1;
-    private bool death_P2;
+    private bool  grounded = false;
+    private bool  combatIdle = false;
+
+
 
 
 
@@ -41,20 +44,7 @@ public class Player : MonoBehaviour
 
 
 
-    // After it detects any collision
-    /*
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.name == "Player_P1" || collision.gameObject.name == "Player_P2")
-        {
-            TakeDamage(1);
-            
-            // Hurt
-            animator.SetTrigger("Hurt");
-        }
-    }
-    */
-
+    // Detect collision with swords oponents sword
     void OnTriggerEnter2D(Collider2D col)
     {
         // Debug info
@@ -128,9 +118,6 @@ public class Player : MonoBehaviour
         if (death_P1 || death_P2)
             animator.SetTrigger("Death");
 
-        //   animator.SetTrigger("Recover");
-
-        
 
         // Attack
         else if (name == "Player_P1" && Input.GetButtonDown("Attack_P1"))
@@ -144,9 +131,11 @@ public class Player : MonoBehaviour
             animator.SetTrigger("Attack3");
         }
 
+
         // Change between idle and combat idle
         else if (Input.GetKeyDown("f"))
             combatIdle = !combatIdle;
+
 
         // Jump
         else if (name == "Player_P1" && Input.GetButtonDown("Jump_P1") && grounded)
@@ -167,28 +156,43 @@ public class Player : MonoBehaviour
             groundSensor.Disable(0.2f);
         }
 
+
         // Run
         else if (name == "Player_P1" && Mathf.Abs(DirX) > Mathf.Epsilon)
             animator.SetInteger("AnimState", 2);
         else if (name == "Player_P2" && Mathf.Abs(DirX) > Mathf.Epsilon)
             animator.SetInteger("AnimState", 1);
 
+
         // Combat Idle
         else if (combatIdle)
             animator.SetInteger("AnimState", 1);
+
 
         // Idle
         else
             animator.SetInteger("AnimState", 0);
 
+
+        // Revocer Player after death
+        if ((death_P1==true || death_P2==true) && Input.GetKeyDown(KeyCode.R))
+        {
+            // Debug info
+            Debug.Log("Restart requested");
+
+            Restart();
+        }
+
+
         // Used for debug only!!!
+        /*
         if (Input.GetKeyDown(KeyCode.Q))
         {
             TakeDamage(1);
 
             // Hurt
             animator.SetTrigger("Hurt");
-        }
+        }*/
     }
 
 
@@ -218,4 +222,10 @@ public class Player : MonoBehaviour
 
     }
 
+
+    private void Restart()
+    {
+        //Restarts current level
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
 }
