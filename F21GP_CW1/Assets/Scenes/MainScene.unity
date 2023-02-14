@@ -268,7 +268,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 6
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -409,50 +409,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &683948749
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 683948751}
-  - component: {fileID: 683948750}
-  m_Layer: 0
-  m_Name: SceneRestart
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &683948750
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 683948749}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd1d29183e6470a428df6c5991e6632c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &683948751
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 683948749}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.20538196, y: -0.21848416, z: 0.23890589}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &958567989 stripped
 MonoBehaviour:
@@ -632,7 +588,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4817838765738932441, guid: 8eede5b30fe1977469511c41e82a497b, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4817838765738932441, guid: 8eede5b30fe1977469511c41e82a497b, type: 3}
       propertyPath: m_AnchorMax.x
@@ -808,8 +764,7 @@ MonoBehaviour:
   MaxHealth: 10
   CurrentHealth_P1: 0
   CurrentHealth_P2: 0
-  death_P1: 0
-  death_P2: 0
+  death: 0
 --- !u!1 &29063060231720650
 GameObject:
   m_ObjectHideFlags: 0
@@ -1447,7 +1402,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4817838765738932441, guid: 8eede5b30fe1977469511c41e82a497b, type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4817838765738932441, guid: 8eede5b30fe1977469511c41e82a497b, type: 3}
       propertyPath: m_AnchorMax.x
@@ -1519,6 +1474,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4817838765738932441, guid: 8eede5b30fe1977469511c41e82a497b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5470929673244291791, guid: 8eede5b30fe1977469511c41e82a497b, type: 3}
+      propertyPath: m_fontSize
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5470929673244291791, guid: 8eede5b30fe1977469511c41e82a497b, type: 3}
+      propertyPath: m_enableAutoSizing
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5470929673244291791, guid: 8eede5b30fe1977469511c41e82a497b, type: 3}
+      propertyPath: m_enableVertexGradient
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -1727,8 +1694,7 @@ MonoBehaviour:
   MaxHealth: 10
   CurrentHealth_P1: 0
   CurrentHealth_P2: 0
-  death_P1: 0
-  death_P2: 0
+  death: 0
 --- !u!1 &8874296695985135126
 GameObject:
   m_ObjectHideFlags: 0
