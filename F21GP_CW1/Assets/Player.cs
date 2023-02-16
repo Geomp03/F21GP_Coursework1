@@ -6,10 +6,12 @@ using UnityEngine.SceneManagement;
 public class Player : MonoBehaviour
 {
     public HealthBarScript healthBar;
+    public Declare_Winner WinnerUI;
 
     // private SceneRestart sceneRestart;
     private Animator animator;
     private Rigidbody2D rb;
+    private BoxCollider2D boxcol;
     private GroundSensor groundSensor;
 
     [SerializeField] float speed = 4.0f;
@@ -19,25 +21,26 @@ public class Player : MonoBehaviour
     public  int   CurrentHealth_P1;
     public  int   CurrentHealth_P2;
     public  bool  death;
+    private int   Winner = 0;
     private float DirX;
     private bool  grounded = false;
-    private bool  combatIdle = false;
-
-
 
 
 
     // Start is called before the first frame update
     void Start()
     {
+        // Initiate health system
         CurrentHealth_P1 = MaxHealth;
         CurrentHealth_P2 = MaxHealth;
         healthBar.SetMaxHealth(MaxHealth);
         death = false;
 
+        // Fetch components
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         groundSensor = transform.Find("GroundSensor").GetComponent<GroundSensor>();
+        boxcol = GetComponent<BoxCollider2D>();
     }
 
 
@@ -48,7 +51,7 @@ public class Player : MonoBehaviour
         // Debug info
         Debug.Log(col.gameObject.name + " : " + gameObject.name + " : " + Time.time);
 
-        if (col.gameObject.name == "SwordHitBox")
+        if (col.gameObject.name == "SwordHitBox" && death==false)
         {
             TakeDamage(1);
 
@@ -81,7 +84,7 @@ public class Player : MonoBehaviour
         // Handle input and movement
         if(death==false)
         {
-            if (name == "Player_P1")
+            if (name=="Player_P1")
             {
                 DirX = Input.GetAxis("Horizontal_P1");
 
@@ -92,7 +95,7 @@ public class Player : MonoBehaviour
                     transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
             }
 
-            else if (name == "Player_P2")
+            else if (name=="Player_P2")
             {
                 DirX = Input.GetAxis("Horizontal_P2");
 
@@ -113,7 +116,7 @@ public class Player : MonoBehaviour
             // Handle Animations
 
             // Attack
-            if (name == "Player_P1" && Input.GetButtonDown("Attack_P1"))
+            if (name=="Player_P1" && Input.GetButtonDown("Attack_P1"))
             {
                 // swordHitBox.enabled = true;
                 animator.SetTrigger("Attack");
@@ -125,7 +128,7 @@ public class Player : MonoBehaviour
 
 
             // Jump
-            if (name == "Player_P1" && Input.GetButtonDown("Jump_P1") && grounded)
+            if (name=="Player_P1" && Input.GetButtonDown("Jump_P1") && grounded)
             {
                 animator.SetTrigger("Jump");
                 grounded = false;
@@ -133,7 +136,7 @@ public class Player : MonoBehaviour
                 rb.velocity = new Vector2(rb.velocity.x, jumpForce);
                 groundSensor.Disable(0.2f);
             }
-            else if (name == "Player_P2" && Input.GetButtonDown("Jump_P2") && grounded)
+            else if (name=="Player_P2" && Input.GetButtonDown("Jump_P2") && grounded)
             {
                 animator.SetTrigger("Jump");
                 grounded = false;
@@ -143,14 +146,32 @@ public class Player : MonoBehaviour
             }
 
             // Run
-            else if (name == "Player_P1" && Mathf.Abs(DirX) > Mathf.Epsilon)
+            else if (name=="Player_P1" && Mathf.Abs(DirX) > Mathf.Epsilon)
                 animator.SetInteger("AnimState", 2);
-            else if (name == "Player_P2" && Mathf.Abs(DirX) > Mathf.Epsilon)
+            else if (name=="Player_P2" && Mathf.Abs(DirX) > Mathf.Epsilon)
                 animator.SetInteger("AnimState", 1);
 
             // Idle
             else
                 animator.SetInteger("AnimState", 0);
+        }
+
+
+        // Disable hitbox if player is dead
+        if (death == true)
+            boxcol.enabled = false;
+        
+
+        // Declare winner
+        if (death == true && name== "Player_P1")
+        {
+            Winner = 2;
+            WinnerUI.DeclareWinner(Winner);
+        }
+        else if (death == true && name == "Player_P2")
+        {
+            Winner = 1;
+            WinnerUI.DeclareWinner(Winner);
         }
 
 
@@ -179,7 +200,7 @@ public class Player : MonoBehaviour
 
     void TakeDamage (int Damage)
     {
-        if (name == "Player_P1" && death == false)
+        if (name=="Player_P1" && death==false)
         {
             CurrentHealth_P1 -= Damage;
             healthBar.SetHealth(CurrentHealth_P1);
@@ -193,7 +214,7 @@ public class Player : MonoBehaviour
                 
         }
 
-        if (name == "Player_P2" && death == false)
+        if (name=="Player_P2" && death==false)
         {
             CurrentHealth_P2 -= Damage;
             healthBar.SetHealth(CurrentHealth_P2);
