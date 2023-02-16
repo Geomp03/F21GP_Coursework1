@@ -16,6 +16,7 @@ public class Player : MonoBehaviour
 
     [SerializeField] float speed = 4.0f;
     [SerializeField] float jumpForce = 7.5f;
+    // [SerializeField] float swordForce = 1000f;
 
     public  int   MaxHealth = 10;
     public  int   CurrentHealth_P1;
@@ -51,15 +52,20 @@ public class Player : MonoBehaviour
         // Debug info
         Debug.Log(col.gameObject.name + " : " + gameObject.name + " : " + Time.time);
 
+        // Vector2 dir = col.transform.position - transform.position;
+
+        // Debug.DrawRay(con_point.point, con_point.normal, Color.red, 1f);
+
         if (col.gameObject.name == "SwordHitBox" && death==false)
         {
+            // rb.AddForce(dir * swordForce);
+
             TakeDamage(1);
 
             // Hurt
             animator.SetTrigger("Hurt");
         }
     }
-
 
 
 
@@ -159,7 +165,10 @@ public class Player : MonoBehaviour
 
         // Disable hitbox if player is dead
         if (death == true)
+        {
             boxcol.enabled = false;
+            rb.constraints = RigidbodyConstraints2D.FreezeAll;
+        }
         
 
         // Declare winner
