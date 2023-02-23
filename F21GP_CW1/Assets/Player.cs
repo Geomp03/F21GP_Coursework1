@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
 {
     public HealthBarScript healthBar;
     public Declare_Winner WinnerUI;
+    public WinnerLoot WinnerLoot;
 
     // private SceneRestart sceneRestart;
     private Animator animator;
@@ -176,11 +177,13 @@ public class Player : MonoBehaviour
         {
             Winner = 2;
             WinnerUI.DeclareWinner(Winner);
+            WinnerLoot.Reward();
         }
         else if (death == true && name == "Player_P2")
         {
             Winner = 1;
             WinnerUI.DeclareWinner(Winner);
+            WinnerLoot.Reward();
         }
 
 
